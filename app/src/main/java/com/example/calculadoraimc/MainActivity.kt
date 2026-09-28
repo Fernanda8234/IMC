@@ -66,11 +66,11 @@ class MainActivity : ComponentActivity() {
 fun IMCScreen(modifier: Modifier = Modifier) {
 
     var altura by remember {
-        mutableStateOf(0)
+        mutableStateOf("")
     }
 
     var peso by remember {
-        mutableStateOf(0)
+        mutableStateOf("")
     }
 
     var colorCard by remember {
@@ -146,9 +146,9 @@ fun IMCScreen(modifier: Modifier = Modifier) {
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Number
                                 ),
-                                value = if (altura == 0) "" else altura.toString(),
+                                value = altura,
                                 onValueChange = { novaAltura ->
-                                    altura = novaAltura.toInt()
+                                    altura = novaAltura
                                 },
                                 label = { Text("Altura") },
                                 placeholder = { Text("Digite sua altura em cm") }
@@ -164,9 +164,9 @@ fun IMCScreen(modifier: Modifier = Modifier) {
                                 keyboardOptions = KeyboardOptions(
                                     keyboardType = KeyboardType.Number
                                 ),
-                                value = if (peso == 0) "" else peso.toString(),
+                                value = peso,
                                 onValueChange = { novoPeso ->
-                                    peso = novoPeso.toInt()
+                                    peso = novoPeso
                                 },
                                 label = { Text("Peso") },
                                 placeholder = { Text("Digite seu peso") }
@@ -192,7 +192,9 @@ fun IMCScreen(modifier: Modifier = Modifier) {
                 }
 
                 // -- resultado --
-                val resultado = peso / ((altura.toDouble()/100) * (altura.toDouble()/100))
+                val alturaDouble = altura.toDoubleOrNull() ?: 0.0
+                val pesoDouble = peso.toDoubleOrNull() ?: 0.0
+                val resultado = pesoDouble / ((alturaDouble/100) * (alturaDouble/100))
 
                 Card(
                     modifier = Modifier
@@ -209,7 +211,7 @@ fun IMCScreen(modifier: Modifier = Modifier) {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         when {
-                            altura == 0 || peso == 0 -> {
+                            alturaDouble == 0.0 || pesoDouble == 0.0 -> {
                                 colorCard
                                 Text(
                                     text ="Sem calculo",
