@@ -24,9 +24,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -72,14 +74,12 @@ fun IMCScreen(modifier: Modifier = Modifier) {
     }
 
     var colorCard by remember {
-        mutableStateOf(Color(0xFF797979))
+        mutableStateOf(Color(0xFF7C7C7C))
     }
 
     Column(modifier = modifier.fillMaxSize()
     ){
-        Box(modifier = Modifier.fillMaxSize()
-        ){
-            Column(modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.fillMaxWidth()){
                 // -- header --
                 Column(
                     modifier = Modifier
@@ -156,6 +156,7 @@ fun IMCScreen(modifier: Modifier = Modifier) {
 
                             Spacer(modifier = Modifier.height(15.dp))
 
+                            // OutlinedTextField() -- talvez substituir o TextField
                             TextField(
                                 modifier = Modifier
                                     .fillMaxWidth()
@@ -189,8 +190,8 @@ fun IMCScreen(modifier: Modifier = Modifier) {
                         }
                     }
                 }
-                // -- resultado --
 
+                // -- resultado --
                 val resultado = peso / ((altura.toDouble()/100) * (altura.toDouble()/100))
 
                 Card(
@@ -203,9 +204,10 @@ fun IMCScreen(modifier: Modifier = Modifier) {
                     )
                 ) {
                     Row(
-                        modifier = Modifier
-                            .align(Alignment.CenterHorizontally)
-                    ){
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
                         when {
                             altura == 0 || peso == 0 -> {
                                 colorCard
@@ -219,38 +221,55 @@ fun IMCScreen(modifier: Modifier = Modifier) {
                             resultado < 18.5 -> {
                                 colorCard = Color(0xFFFFC107)
                                 Text(String.format("%.2f", resultado))
+
+                                Spacer(modifier = Modifier.width(15.dp))
+
                                 Text("Abaixo do peso")
                             }
 
                             resultado < 25 -> {
                                 colorCard = Color(0xFF4CAF50)
                                 Text(String.format("%.2f", resultado))
+
+                                Spacer(modifier = Modifier.width(15.dp))
+
                                 Text("Peso ideal")
                             }
 
                             resultado < 30 -> {
                                 colorCard = Color(0xFFFFC107)
                                 Text(String.format("%.2f", resultado))
+
+                                Spacer(modifier = Modifier.width(15.dp))
+
                                 Text("Levemente acima do peso")
                             }
 
                             resultado < 35 -> {
                                 colorCard = Color(0xFFFF9800)
                                 Text(String.format("%.2f", resultado))
+
+                                Spacer(modifier = Modifier.width(15.dp))
+
                                 Text("Obesidade grau I")
                             }
 
                             resultado < 40 -> {
                                 colorCard = Color(0xFFF44336)
                                 Text(String.format("%.2f", resultado))
+
+                                Spacer(modifier = Modifier.width(15.dp))
+
                                 Text("Obesidade grau II")
                             }
 
                             else -> {
                                 colorCard = Color(0xFFD32F2F)
                                 Text(String.format("%.2f", resultado))
+
+                                Spacer(modifier = Modifier.width(15.dp))
+
                                 Text("Obesidade grau III")
-                            }
                         }
                     }
                 }
